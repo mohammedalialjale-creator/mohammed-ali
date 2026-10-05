@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>محمد علي | طالب صيدلة ومطور ويب</title>
+  
+  <!-- خط Cairo من جوجل -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== المتغيرات والألوان ===== */
+    :root {
+      --green-dark: #064e3b;
+      --green-mid: #047857;
+      --green-light: #34d399;
+      --green-glow: #6ee7b7;
+      --bg-dark: #071a14;
+      --bg-card: rgba(255, 255, 255, 0.04);
+      --text-main: #f0fdf4;
+      --text-muted: #9ca3af;
+      --border-green: rgba(52, 211, 153, 0.2);
+      --font-family: 'Cairo', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.7;
+    }
+
+    /* خلفية شبكية خفيفة */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(52, 211, 153, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(52, 211, 153, 0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* ===== الهيدر ===== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: rgba(7, 26, 20, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-green);
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 1.3rem;
+      background: linear-gradient(135deg, var(--green-light), var(--green-glow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ===== زر كرة أرضية صغير لتبديل اللغة ===== */
+    .lang-toggle-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-green);
+      color: var(--green-light);
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--font-family);
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .lang-toggle-btn:hover {
+      background: rgba(52, 211, 153, 0.15);
+      border-color: var(--green-light);
+      color: var(--green-glow);
+      transform: translateY(-2px);
+    }
+
+    .globe-icon {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* ===== الأقسام العامة ===== */
+    section {
+      padding: 4rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    h2.section-title {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 3rem;
+      background: linear-gradient(135deg, var(--green-light), var(--green-glow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 800;
+    }
+
+    /* ===== قسم البطل (Hero) ===== */
+    .hero {
+      text-align: center;
+      padding-top: 5rem;
+      padding-bottom: 5rem;
+      min-height: 75vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-avatar-container {
+      position: relative;
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-avatar {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid var(--green-light);
+      box-shadow: 0 0 30px rgba(52, 211, 153, 0.3);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      position: relative;
+      z-index: 2;
+      background-color: var(--green-dark);
+    }
+
+    .hero-avatar:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 50px rgba(52, 211, 153, 0.6);
+    }
+
+    .hero-avatar-container::before {
+      content: '';
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(52,211,153,0.15) 0%, transparent 70%);
+      z-index: 1;
+      animation: pulseGlow 3s infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+      from { transform: scale(1); opacity: 0.4; }
+      to { transform: scale(1.15); opacity: 0.8; }
+    }
+
+    .hero .greeting {
+      font-size: 1.2rem;
+      color: var(--green-glow);
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #ffffff 30%, var(--green-glow) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero .tagline {
+      font-size: 1.8rem;
+      color: var(--green-light);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero .job-title {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* ===== الأزرار ===== */
+    .btn {
+      display: inline-block;
+      padding: 0.9rem 2.2rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      font-family: inherit;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--green-dark), var(--green-light));
+      color: #ffffff;
+      box-shadow: 0 4px 20px rgba(52, 211, 153, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(52, 211, 153, 0.5);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--green-light);
+      border: 2px solid var(--green-light);
+    }
+
+    .btn-outline:hover {
+      background: rgba(52, 211, 153, 0.1);
+      transform: translateY(-3px);
+    }
+
+    /* ===== المهارات ===== */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .skill-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-green);
+      border-radius: 1.2rem;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .skill-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--green-light);
+      box-shadow: 0 10px 30px rgba(52, 211, 153, 0.15);
+    }
+
+    .skill-card .skill-icon {
+      display: block;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ===== المشاريع ===== */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-green);
+      border-radius: 1.5rem;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .project-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--green-light);
+      box-shadow: 0 20px 40px rgba(52, 211, 153, 0.15);
+    }
+
+    .project-image {
+      height: 180px;
+      background: #0a192f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      overflow: hidden;
+    }
+
+    .project-logo-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #0b132b;
+      padding: 12px 24px;
+      border-radius: 50px;
+      border: 2px solid #34d399;
+      box-shadow: 0 4px 20px rgba(52, 211, 153, 0.2);
+    }
+
+    .project-logo-icon {
+      width: 35px;
+      height: 35px;
+      background: #00e699;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0b132b;
+      font-weight: 900;
+      font-size: 22px;
+      position: relative;
+    }
+
+    .project-logo-icon::after {
+      content: '';
+      position: absolute;
+      top: -3px;
+      right: -3px;
+      width: 10px;
+      height: 10px;
+      background: #ffb703;
+      border-radius: 50%;
+      border: 2px solid #0b132b;
+    }
+
+    .project-logo-text {
+      color: #ffffff;
+      font-size: 1.5rem;
+      font-weight: 800;
+      font-family: sans-serif;
+    }
+
+    .project-logo-text span {
+      color: #00e699;
+    }
+
+    .project-info {
+      padding: 1.5rem;
+    }
+
+    .project-info h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      color: var(--green-glow);
+    }
+
+    .project-info p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .project-links a {
+      font-size: 0.9rem;
+      color: var(--green-light);
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 1px dashed var(--green-light);
+      transition: color 0.3s;
+    }
+
+    .project-links a:hover {
+      color: var(--green-glow);
+    }
+
+    /* ===== تواصل معي ===== */
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      color: var(--green-light);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.8rem 1.8rem;
+      border-radius: 50px;
+      border: 1px solid var(--border-green);
+      transition: all 0.3s ease;
+      background: var(--bg-card);
+      backdrop-filter: blur(8px);
+    }
+
+    .contact-link:hover {
+      border-color: var(--green-light);
+      background: rgba(52, 211, 153, 0.1);
+      transform: translateY(-3px);
+    }
+
+    .contact-icon-svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    /* ===== الفوتر ===== */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--border-green);
+      margin-top: 2rem;
+    }
+
+    /* ===== الجوال ===== */
+    @media (max-width: 600px) {
+      .site-header {
+        padding: 0.8rem 1rem;
+      }
+      section {
+        padding: 3rem 1rem;
+      }
+      .hero {
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+      }
+      .hero .tagline {
+        font-size: 1.4rem;
+      }
+      .hero-avatar {
+        width: 140px;
+        height: 140px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== الهيدر ===== -->
+  <header class="site-header">
+    <div class="logo" data-ar="محمد علي" data-en="Mohammed Ali">محمد علي</div>
+    
+    <!-- زر الكرة الأرضية الصغير لتبديل اللغة -->
+    <button id="langToggle" class="lang-toggle-btn" aria-label="تبديل اللغة">
+      <svg class="globe-icon" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="2" y1="12" x2="22" y2="12"></line>
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+      </svg>
+      <span id="langText">EN</span>
+    </button>
+  </header>
+
+  <main>
+    <!-- ===== قسم البطل ===== -->
+    <section class="hero" id="home">
+      
+      <!-- صورة البروفايل الشخصية المربوطة بالملف -->
+      <div class="hero-avatar-container">
+        <img 
+          id="profileImg"
+          src="profile.jpg" 
+          alt="محمد علي" 
+          class="hero-avatar"
+        />
+      </div>
+
+      <p class="greeting" data-ar="مرحباً، أنا" data-en="Hello, I'm">مرحباً، أنا</p>
+      <h1 data-ar="محمد علي" data-en="Mohammed Ali">محمد علي</h1>
+      <p class="tagline" data-ar="طالب صيدلة ومطور ويب" data-en="Pharmacy Student & Web Developer">طالب صيدلة ومطور ويب</p>
+      <p class="job-title" data-ar="أجمع بين العلوم الطبية وبناء حلول الويب الحديثة" data-en="Bridging pharmaceutical sciences and modern web development">أجمع بين العلوم الطبية وبناء حلول الويب الحديثة</p>
+      
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary" data-ar="تصفح أعمالي" data-en="View My Work">تصفح أعمالي</a>
+        <a href="#contact" class="btn btn-outline" data-ar="تواصل معي" data-en="Contact Me">تواصل معي</a>
+      </div>
+    </section>
+
+    <!-- ===== قسم المهارات ===== -->
+    <section id="skills">
+      <h2 class="section-title" data-ar="المهارات" data-en="Skills">المهارات</h2>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <span class="skill-icon">🐍</span>
+          Python
+        </div>
+        <div class="skill-card">
+          <span class="skill-icon">🌐</span>
+          HTML
+        </div>
+        <div class="skill-card">
+          <span class="skill-icon">🎨</span>
+          CSS
+        </div>
+        <div class="skill-card">
+          <span class="skill-icon">🔧</span>
+          Git
+        </div>
+        <div class="skill-card">
+          <span class="skill-icon">🐙</span>
+          GitHub
+        </div>
+        <div class="skill-card">
+          <span class="skill-icon">▲</span>
+          Vercel
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== قسم المشاريع ===== -->
+    <section id="projects">
+      <h2 class="section-title" data-ar="أعمالي" data-en="My Work">أعمالي</h2>
+      <div class="projects-grid">
+        <!-- كارت مشروع PharmaNear -->
+        <div class="project-card">
+          <div class="project-image">
+            <div class="project-logo-badge">
+              <div class="project-logo-icon">+</div>
+              <div class="project-logo-text">Pharma<span>Near</span></div>
+            </div>
+          </div>
+          <div class="project-info">
+            <h3>PharmaNear</h3>
+            <p data-ar="منصة ذكية للبحث عن الأدوية وأقرب صيدلية. (قيد التطوير)" data-en="Smart platform to search for medicines and nearest pharmacy. (Under Development)">منصة ذكية للبحث عن الأدوية وأقرب صيدلية. (قيد التطوير)</p>
+            <div class="project-links">
+              <a href="https://pharmanear.vercel.app" target="_blank" rel="noopener" data-ar="زيارة الموقع ←" data-en="Visit Site →">زيارة الموقع ←</a>
+            </div>
+          </div>
+        </div>
+        <!-- مساحة فارغة لمشاريع أخرى -->
+        <div class="project-card" style="opacity: 0.5; border-style: dashed;">
+          <div class="project-image" style="background: rgba(52,211,153,0.1); color: var(--text-muted); font-size: 1rem;">+</div>
+          <div class="project-info">
+            <h3 data-ar="قريباً" data-en="Coming Soon">قريباً</h3>
+            <p data-ar="سيتم إضافة المزيد من المشاريع هنا..." data-en="More projects will be added here...">سيتم إضافة المزيد من المشاريع هنا...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== قسم تواصل معي ===== -->
+    <section id="contact">
+      <h2 class="section-title" data-ar="تواصل معي" data-en="Contact Me">تواصل معي</h2>
+      <div class="contact-links">
+        
+        <!-- رابط البريد الإلكتروني -->
+        <a href="mailto:mohammedalialjale@gmail.com" class="contact-link">
+          <svg class="contact-icon-svg" viewBox="0 0 24 24">
+            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+          </svg>
+          <span data-ar="البريد الإلكتروني" data-en="Email">البريد الإلكتروني</span>
+        </a>
+
+        <!-- رابط الواتساب -->
+        <a href="https://wa.me/249118818259" target="_blank" rel="noopener" class="contact-link">
+          <svg class="contact-icon-svg" viewBox="0 0 24 24">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.285-.143-1.689-.833-1.95-.928-.262-.096-.452-.143-.643.143-.19.285-.738.928-.905 1.118-.167.19-.333.214-.618.071-.285-.143-1.204-.444-2.293-1.415-.848-.756-1.42-1.689-1.587-1.974-.167-.285-.018-.439.125-.581.129-.128.285-.333.428-.5.143-.167.19-.285.285-.476.095-.19.048-.357-.024-.5-.071-.143-.643-1.547-.881-2.118-.232-.557-.468-.482-.643-.491l-.547-.009c-.19 0-.5.071-.762.357-.262.285-1 002.976-1 2.38 0 1.378.999 2.713 1.142 2.903.143.19 1.966 3.002 4.762 4.212.665.288 1.185.46 1.59.589.668.213 1.276.183 1.756.111.535-.08 1.689-.69 1.927-1.357.238-.667.238-1.238.167-1.357-.07-.119-.261-.19-.546-.333z"/>
+          </svg>
+          <span data-ar="واتساب" data-en="WhatsApp">واتساب</span>
+        </a>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== الفوتر ===== -->
+  <footer>
+    <p>
+      <span data-ar="صنع بواسطة محمد علي" data-en="Made by Mohammed Ali">صنع بواسطة محمد علي</span>
+      <br>
+      © 2026 Mohammed Ali. <span data-ar="جميع الحقوق محفوظة." data-en="All rights reserved.">جميع الحقوق محفوظة.</span>
+    </p>
+  </footer>
+
+  <script>
+    // ===== البحث عن الصورة وتجربة صيغ مختلفة تلقائياً =====
+    const imgEl = document.getElementById('profileImg');
+    const possibleNames = ['profile.jpg', 'profile.png', 'profile.jpeg', '1000208024.jpg', '1000208024.png'];
+    let currentIndex = 0;
+
+    imgEl.onerror = function() {
+      currentIndex++;
+      if (currentIndex < possibleNames.length) {
+        imgEl.src = possibleNames[currentIndex];
+      }
+    };
+
+    // ===== دالة تبديل اللغة =====
+    function setLanguage(lang) {
+      const isAr = lang === 'ar';
+      document.documentElement.lang = lang;
+      document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+
+      document.querySelectorAll('[data-ar]').forEach(el => {
+        const text = el.getAttribute(`data-${lang}`);
+        if (text) el.textContent = text;
+      });
+
+      const langText = document.getElementById('langText');
+      langText.textContent = isAr ? 'EN' : 'عربي';
+
+      localStorage.setItem('preferredLang', lang);
+    }
+
+    document.getElementById('langToggle').addEventListener('click', () => {
+      const currentLang = document.documentElement.lang;
+      const newLang = currentLang === 'ar' ? 'en' : 'ar';
+      setLanguage(newLang);
+    });
+
+    const savedLang = localStorage.getItem('preferredLang');
+    if (savedLang) {
+      setLanguage(savedLang);
+    } else {
+      setLanguage('ar');
+    }
+  </script>
+</body>
+</html>
